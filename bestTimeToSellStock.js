@@ -15,33 +15,62 @@
  //then iterate through our array of objects and find the greatest value.
 
  //lets implement niave solution (n2 time complexity)
- var maxProfit = function(prices) {
-  const profits = {};
+//  var maxProfit = function(prices) {
+//   const profits = {};
 
-  //for each index, instantiate the key (key should be index)
-  for (let i = 0; i < prices.length; i++) {
-    profits[i] = 0;
+//   //for each index, instantiate the key (key should be index)
+//   for (let i = 0; i < prices.length; i++) {
+//     profits[i] = 0;
 
-    //iterate through all other elements and determine possible profits
-    for (let j = i+1; j < prices.length; j++) {
-      let profit = prices[j] - prices[i]; //later day minus current day
-      if (profit > profits[i]) {
-        profits[i] = profit;
-      }
+//     //iterate through all other elements and determine possible profits
+//     for (let j = i+1; j < prices.length; j++) {
+//       let profit = prices[j] - prices[i]; //later day minus current day
+//       if (profit > profits[i]) {
+//         profits[i] = profit;
+//       }
+//     }
+
+//   }
+//   console.log(profits);
+
+//   let max = 0;
+//   for (let key in profits) {
+//     if (profits[key] > max) {
+//       max = profits[key];
+//     }
+//   }
+
+//   console.log(max);
+//   return max;
+// };
+
+//lets implement a LINEAR solution:
+//Time Complexity: O(n);
+
+ //LINEAR strategy
+
+ //for the current index number, find the lowest number to the left of it and make that the new max profit for current day
+//keep a running count of the lowest number as we iterate
+//after finish iterating return our profit variable
+
+var maxProfit = function(prices) {
+  let lowest = prices[0]; //first number is always lowest number
+  let maxProfit = 0;
+
+  //iterate through our array and keep a running count of lwoest number
+  for (let i = 1; i < prices.length; i++) {
+    //set lowest number according to current index
+    if (prices[i] < lowest) {
+      lowest = prices[i];
     }
 
-  }
-  console.log(profits);
-
-  let max = 0;
-  for (let key in profits) {
-    if (profits[key] > max) {
-      max = profits[key];
+    //if our current number minus the lowest number is higher than max profit set it
+    if ( (prices[i] - lowest) > maxProfit ) {
+      maxProfit = prices[i] - lowest;
     }
   }
 
-  console.log(max);
-  return max;
+  return maxProfit;
 };
 
 // prices =
