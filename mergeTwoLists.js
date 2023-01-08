@@ -15,64 +15,64 @@ function ListNode(val, next) {
 // bNode1.next = bNode2;
 // bNode2.next = bNode3;
 
-var mergeTwoLists = function(list1, list2) {
-  let currHead = new ListNode();
-  let hasRun = false;
+// var mergeTwoLists = function(list1, list2) {
+//   let currHead = new ListNode();
+//   let hasRun = false;
 
-  if (list1 === null && list2 === null) {
-    return list1;
-  }
+//   if (list1 === null && list2 === null) {
+//     return list1;
+//   }
 
-  const merge = (list1, list2, currNode) => {
-    //if both lists are empty we are finished iterating through our linked list
-    if (list1 === null && list2 === null) {
-      return;
-    }
+//   const merge = (list1, list2, currNode) => {
+//     //if both lists are empty we are finished iterating through our linked list
+//     if (list1 === null && list2 === null) {
+//       return;
+//     }
 
-    //if any of the two lists are empty just recurse through that pathway
-    if (list1 === null && list2 !== null) {
-      currNode.next = new ListNode(list2.val);
-      currNode = currNode.next;
-      list2 = list2.next;
-      merge(list1, list2, currNode);
-      return currNode;
-    }
+//     //if any of the two lists are empty just recurse through that pathway
+//     if (list1 === null && list2 !== null) {
+//       currNode.next = new ListNode(list2.val);
+//       currNode = currNode.next;
+//       list2 = list2.next;
+//       merge(list1, list2, currNode);
+//       return currNode;
+//     }
 
-    if (list2 === null && list1 !== null) {
-      currNode.next = new ListNode(list1.val);
-      currNode = currNode.next;
-      list1 = list1.next;
-      merge(list1, list2, currNode);
-      return currNode;
-    }
+//     if (list2 === null && list1 !== null) {
+//       currNode.next = new ListNode(list1.val);
+//       currNode = currNode.next;
+//       list1 = list1.next;
+//       merge(list1, list2, currNode);
+//       return currNode;
+//     }
 
-    let nextNode;
-    //find which node will be the next node
-    if (list1 !== null && list1.val <= list2.val) {
-      nextNode = new ListNode(list1.val)
-      list1 = list1.next;
-    } else if (list2 !== null && list2.val < list1.val) {
-      nextNode = new ListNode(list2.val);
-      list2 = list2.next;
-    }
+//     let nextNode;
+//     //find which node will be the next node
+//     if (list1 !== null && list1.val <= list2.val) {
+//       nextNode = new ListNode(list1.val)
+//       list1 = list1.next;
+//     } else if (list2 !== null && list2.val < list1.val) {
+//       nextNode = new ListNode(list2.val);
+//       list2 = list2.next;
+//     }
 
-    //set the nextNode as head if currNode is undefined
-    if (currNode.val === 0 && hasRun === false) {
-      currNode = nextNode;
-      hasRun = true;
-    } else {
-      //set the currNode's next as nextNode if it is defined
-      currNode.next = nextNode;
-      currNode = currNode.next;
-    }
+//     //set the nextNode as head if currNode is undefined
+//     if (currNode.val === 0 && hasRun === false) {
+//       currNode = nextNode;
+//       hasRun = true;
+//     } else {
+//       //set the currNode's next as nextNode if it is defined
+//       currNode.next = nextNode;
+//       currNode = currNode.next;
+//     }
 
-    merge(list1, list2, currNode);
+//     merge(list1, list2, currNode);
 
-    return currNode;
-  }
+//     return currNode;
+//   }
 
-  return merge(list1, list2, currHead);
-};
+//   return merge(list1, list2, currHead);
+// };
 
 
 // console.log(new ListNode(null));
