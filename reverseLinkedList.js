@@ -21,56 +21,56 @@
 // Recurse through bringing in our new head and our new list
 // Once we hit the end, return our built (reversed) linked list
 
-// const reverseList = (head, reversedList = null) => {
-//   // If our head is null, we have reached the end of our original linked-list //
-//   if (head === null) {
-//     return reversedList;
-//   }
-//   const nextNode = head.next; //Save the head of the next node beforing severing the connection
+const reverseList = (head, reversedList = null) => {
+  // If our head is null, we have reached the end of our original linked-list //
+  if (head === null) {
+    return reversedList;
+  }
+  const nextNode = head.next; //Save the head of the next node beforing severing the connection
 
-//   head.next = reversedList; // Set our next to our reversedList (initially it will be null)
-//   reversedList = head; // Then set our reversedList as the new head (which is the new linked-list)
+  head.next = reversedList; // Set our next to our reversedList (initially it will be null)
+  reversedList = head; // Then set our reversedList as the new head (which is the new linked-list)
 
-//   // Now that we have severed the head off //
-//   // Recursively call our function with our nextNode and our reversed list we are building //
-//   return reverseList(nextNode, reversedList);
-// }
+  // Now that we have severed the head off //
+  // Recursively call our function with our nextNode and our reversed list we are building //
+  return reverseList(nextNode, reversedList);
+}
 
 //----- Iterative Strategy -----//
 // Iterate through the head until we hit the end
 // Somehow store each head in an array
 // Then iterate through the array and build a new list from that
 
-const reverseList = (head) => {
-  // Edgecase here, not sure when head will equal falsey though //
-  if (!head) {
-    return head;
-  }
+// const reverseList = (head) => {
+//   // Edgecase here, not sure when head will equal falsey though //
+//   if (!head) {
+//     return head;
+//   }
 
-  const heads = [];
-  // Iterate through our linked-list via a while loop //
-  // Store the heads in our heads array (with severed next) //
-  while (head !== null) {
-    let nextNode = head.next;
-    head.next = null;
-    heads.push(head);
-    head = nextNode;
-  }
+//   const heads = [];
+//   // Iterate through our linked-list via a while loop //
+//   // Store the heads in our heads array (with severed next) //
+//   while (head !== null) {
+//     let nextNode = head.next;
+//     head.next = null;
+//     heads.push(head);
+//     head = nextNode;
+//   }
 
-  // At this point we have stored all of our heads in the heads array //
-  // Iterate through it backwards and build our reverse list //
+//   // At this point we have stored all of our heads in the heads array //
+//   // Iterate through it backwards and build our reverse list //
 
-  let reversedListHead = heads.pop(); //Initialize our reversed list with the last node on the heads array
-  let currNode = reversedListHead;
-  for (let i = heads.length - 1; i >= 0; i--) {
-    //Set our currNode's next to our current iteration element
-    currNode.next = heads[i];
-    //Then set our currNode to be the head we just attached
-    currNode = currNode.next;
-  };
+//   let reversedListHead = heads.pop(); //Initialize our reversed list with the last node on the heads array
+//   let currNode = reversedListHead;
+//   for (let i = heads.length - 1; i >= 0; i--) {
+//     //Set our currNode's next to our current iteration element
+//     currNode.next = heads[i];
+//     //Then set our currNode to be the head we just attached
+//     currNode = currNode.next;
+//   };
 
-  return reversedListHead;
-}
+//   return reversedListHead;
+// }
 
 function ListNode(val, next) {
   this.val = val === undefined ? 0 : val;
