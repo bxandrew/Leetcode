@@ -34,12 +34,12 @@
 // second step will always have 2 ways (1-1, 2)
 
 // Time Complexity: O(2^n)
-// var climbStairs = function(n) {
-//   if (n === 1) return 1;
-//   if (n === 2) return 2;
+var climbStairs = function(n) {
+  if (n === 1) return 1;
+  if (n === 2) return 2;
 
-//   return climbStairs(n - 2) + climbStairs(n - 1);
-// };
+  return climbStairs(n - 2) + climbStairs(n - 1);
+};
 
 // Memoized Recursive Function //
 
