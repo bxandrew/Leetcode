@@ -40,6 +40,8 @@
 // Downfalls to this approach without using memoization is there are many duplicate recursive calls when we have already calculated it once
 // Improve this with memoization
 
+// Time complexity: O(2^n)
+
 // var fib = function(n) {
 //   if (n === 0) return 0; //fib 0 is always 0
 //   if (n === 1 || n === 2) return 1; //fib 1 and fib 2 are always 1
@@ -48,6 +50,8 @@
 // };
 
 //---- Memoized Recursive version ----//
+// Time complexity: O(n)
+// Space Complexity: O(n)
 
 // const memoFib = (n) => {
 //   const cache = {};
@@ -68,6 +72,9 @@
 // }
 
 //---- Dynamic Programming version of Fib ----//
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
 // Strategy:
 // Use an array to store the values of the calculated fib numbers as we iterate forward
 // Then just return the number at the end
@@ -89,6 +96,9 @@
 // }
 
 //---- Iterative Approach to Fib Nums ----//
+// Time complexity: O(n)
+// Space Complexity: O(1);
+
 // Strategy:
 // Have two pointers (in the form of variables), and move those pointers forward as we iterate and generate new fib numbers
 
