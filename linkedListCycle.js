@@ -30,48 +30,82 @@
 // Stop iterating once a pointer reaches null. (Confirmation that it is not cyclical)
 
 // Recursive way needs more work.
-var hasCycle = function(head, pointerOne, pointerTwo) {
-  if (head === null || head.next === null) return false; //If head is ever null or its next is null (we have reached the end)
+// var hasCycle = function(head, pointerOne, pointerTwo) {
+//   if (head === null || head.next === null) return false; //If head is ever null or its next is null (we have reached the end)
 
-  // Setup starting points for our pointers
-  if (pointerOne === undefined && pointerTwo === undefined) {
-    pointerOne = head;
-    pointerTwo = head.next;
+//   // Setup starting points for our pointers
+//   if (pointerOne === undefined && pointerTwo === undefined) {
+//     pointerOne = head;
+//     pointerTwo = head.next;
+//   }
+
+//   if (pointerOne === pointerTwo) return true; // If the pointers ever stack on top of each other, it is cyclical
+
+//   // This statement also prevents attempting to access a null objects .next property
+//   if (pointerTwo === null || pointerTwo.next === null) { // If pointerTwo ever points to null or it's next is pointing to null return false; End of linked-list
+//     return false;
+//   }
+
+//   return hasCycle(head.next, pointerOne = pointerOne.next, pointerTwo = pointerTwo.next.next)
+
+// };
+
+
+//----- Iterative Solution -----//
+// Strategy:
+// Two Pointers Strategy (called slow and fast)
+// Slow pointer will be the head itself (moving one step at a time)
+// Fast pointer will be called fast (moving 2 steps at a time)
+// Set fast initially to be head (both starts at point 0)
+
+// *** While condition will check if fast exists and if fast.next exists (vital to not breaking the code for access nullobject properties) ***
+// This means we can access current nodes next, and next nodes next
+
+// Set fast = fast.next.next
+// Set slow(head) = head.next
+
+// Check against each other (head === fast)
+//    If they are equal by reference they are on same node, return true;
+
+// Else keep iterating through the linked-list
+
+// If we ever break out of while loop, condition has failed (either fast is null or fast.next is null) Null means we have reached the end
+// Return false
+
+const hasCycle = (head) => {
+  let fast = head;
+  while (fast && fast.next) { //while fast is not null and fast.next is not null
+    fast = fast.next.next;
+    head = head.next;
+    if (fast === head) return true;
   }
-
-  if (pointerOne === pointerTwo) return true; // If the pointers ever stack on top of each other, it is cyclical
-
-  // This statement also prevents attempting to access a null objects .next property
-  if (pointerTwo === null || pointerTwo.next === null) { // If pointerTwo ever points to null or it's next is pointing to null return false; End of linked-list
-    return false;
-  }
-
-  return hasCycle(head.next, pointerOne = pointerOne.next, pointerTwo = pointerTwo.next.next)
-
-};
+  //if we can exit out of the while loop that means it is not cyclical
+  return false;
+}
 
 function ListNode(val) {
   this.val = val;
   this.next = null;
 }
 
-// let node3 = new ListNode(3);
-// let node2 = new ListNode(2);
-// let node0 = new ListNode(0);
-// let node4 = new ListNode(-4);
+let node3 = new ListNode(3);
+let node2 = new ListNode(2);
+let node0 = new ListNode(0);
+let node4 = new ListNode(-4);
 
-// //head is node3
-// node3.next = node2;
-// node2.next = node0;
-// node0.next = node4;
-// node4.next = node2;
+//head is node3
+node3.next = node2;
+node2.next = node0;
+node0.next = node4;
+node4.next = node2;
 
 // console.log(node3);
+// console.log(hasCycle(node3));
 
-let node1 = new ListNode(1);
-let node2 = new ListNode(2);
-node1.next = node2;
+// let node1 = new ListNode(1);
+// let node2 = new ListNode(2);
+// node1.next = node2;
 
-// console.log(node1);
+// // console.log(node1);
 
-console.log(hasCycle(node1));
+// console.log(hasCycle(node1));
