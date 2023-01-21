@@ -21,6 +21,13 @@
  * @return {boolean}
  */
 
+// write down time and space complexity of both approaches. O(n) time complexity fo
+// r both recursive and iterative approach since we visit each node at least once.
+// O(n) space complexity for recursive call because of having to make more variable
+// s as we recurse through until we hit our base case. O(1) space complexity for it
+// erative approach since we are reusing the same variables as we iterate through t
+// he linked-list.
+
 // Strategy:
 // I believe that checking for if the linked-list has a cycle is to use two pointers.
 // One pointer will iterate through the linked-list one step at a time
