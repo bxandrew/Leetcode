@@ -30,6 +30,8 @@
 // Stop iterating once a pointer reaches null. (Confirmation that it is not cyclical)
 
 // Recursive way needs more work.
+// Time Complexity O(n)
+// Space Complexity O(n)
 // var hasCycle = function(head, pointerOne, pointerTwo) {
 //   if (head === null || head.next === null) return false; //If head is ever null or its next is null (we have reached the end)
 
@@ -72,6 +74,9 @@
 // If we ever break out of while loop, condition has failed (either fast is null or fast.next is null) Null means we have reached the end
 // Return false
 
+// Time Complexity O(n)
+// Space Complexity O(1)
+
 const hasCycle = (head) => {
   let fast = head;
   while (fast && fast.next) { //while fast is not null and fast.next is not null
@@ -88,16 +93,16 @@ function ListNode(val) {
   this.next = null;
 }
 
-let node3 = new ListNode(3);
-let node2 = new ListNode(2);
-let node0 = new ListNode(0);
-let node4 = new ListNode(-4);
+// let node3 = new ListNode(3);
+// let node2 = new ListNode(2);
+// let node0 = new ListNode(0);
+// let node4 = new ListNode(-4);
 
-//head is node3
-node3.next = node2;
-node2.next = node0;
-node0.next = node4;
-node4.next = node2;
+// //head is node3
+// node3.next = node2;
+// node2.next = node0;
+// node0.next = node4;
+// node4.next = node2;
 
 // console.log(node3);
 // console.log(hasCycle(node3));
