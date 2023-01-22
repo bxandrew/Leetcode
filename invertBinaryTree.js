@@ -28,10 +28,13 @@
 // Use a swap algo similar to swapping elements in arrays
 // Once we have reached a leaf (both rigth and left are null) return out
 
+// Time Complexity: O(n) //we have to visit each node
+// Space Complexity: O(n) //A new set of variables is used each time we recurse through each node
+
 var invertTree = function(root) {
   if (root === null) return root; // If given a null root, return out the null root (handles if we enter a null child)
 
-  // Basecase is if we reach a leaf (terminal node) return out;
+  // Basecase is if we reach a leaf (terminal node) return out root (handles leaf case)
   if (root.left === null && root.right === null) return root; // If the root has no children, simply return the root out (head)
 
   // Starting at our root
