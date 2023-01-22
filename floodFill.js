@@ -62,29 +62,55 @@
 //---- Attempt iterative with a queue ----//
 // Use a queue to keep track of which points to visit
 
-const floodFill = (image, sr, sc, color) => {
-  if (image[sr][sc] === color) return image;
-  debugger;
-  let queue = [ [sr, sc] ]; //with the starting point as the first point to check
-  let start = image[sr][sc];
-  let rowLength = image[0].length
-  let colLength = image.length
-  while (queue.length) { //while there are still things in the queue
-    let currCoords = queue.shift() // [sr, sc]
-    let row = currCoords[0];
-    let col = currCoords[1];
-    if (image[row][col] === start) {
-      image[row][col] = color;
-    }
+// const floodFill = (image, sr, sc, color) => {
+//   if (image[sr][sc] === color) return image;
+//   debugger;
+//   let queue = [ [sr, sc] ]; //with the starting point as the first point to check
+//   let start = image[sr][sc];
+//   let rowLength = image[0].length
+//   let colLength = image.length
+//   while (queue.length) { //while there are still things in the queue
+//     let currCoords = queue.shift() // [sr, sc]
+//     let row = currCoords[0];
+//     let col = currCoords[1];
+//     if (image[row][col] === start) {
+//       image[row][col] = color;
+//     }
 
-    //then add on the elements to left right, top, bottom
-    if (col - 1 >= 0 && image[row][col-1] === start) queue.push([row, col-1]);
-    if (col + 1 < rowLength && image[row][col+1] === start) queue.push([row, col+1]);
-    if (row - 1 >= 0 && image[row-1][col] === start) queue.push([row-1, col]);
-    if (row + 1 < colLength && image[row+1][col] === start) queue.push([row+1, col]);
+//     //then add on the elements to left right, top, bottom
+//     if (col - 1 >= 0 && image[row][col-1] === start) queue.push([row, col-1]);
+//     if (col + 1 < rowLength && image[row][col+1] === start) queue.push([row, col+1]);
+//     if (row - 1 >= 0 && image[row-1][col] === start) queue.push([row-1, col]);
+//     if (row + 1 < colLength && image[row+1][col] === start) queue.push([row+1, col]);
+//   }
+
+//   return image
+// }
+
+//Combining all the statements into the top and checking, before we move down the recursive calls
+
+const floodFill = ( image, sr, sc, color, startColor = image[sr][sc] ) => {
+  // Check if indexes are in range
+
+  // image[sr][sc] !== startColor this check is to check if our current point is not equal to the original color (then just return out)
+  // We only care about the points that are next to the points where they have the same original color
+
+  // image[sr][sc] === color means that if the current point is equal to the color (it means that it already changed to the new color, we can just return out);
+  if (sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length || image[sr][sc] !== startColor || image[sr][sc] === color) {
+    return image;
   }
 
-  return image
+  //remember to change our color here, or else recursion fails
+  image[sr][sc] = color;
+
+  //recursively call to all 4 directions
+  floodFill(image, sr-1, sc, color, startColor); // top
+  floodFill(image, sr+1, sc, color, startColor); // bottom
+  floodFill(image, sr, sc-1, color, startColor); // left
+  floodFill(image, sr, sc+1, color, startColor); // right
+
+  //return our final colored image;
+  return image;
 }
 
 let image = [[1,1,1],[1,1,0],[1,0,1]]
