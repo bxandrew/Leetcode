@@ -111,19 +111,37 @@
 // Time complexity is O(log n) because we only have to iterate through half the tree
 // Space complexity is O(log n) bc we are only iterating through one half of the nodes (BST)
 
-const lowestCommonAncestor = function(root, p, q) {
-  if (root === null) return null; // Basecase if root is null, just return null (no common ancestor)
+// const lowestCommonAncestor = function(root, p, q) {
+//   if (root === null) return null; // Basecase if root is null, just return null (no common ancestor)
 
-  // If the values are both greater than the current root node, recursively iterate to the right side
-  if (p.val > root.val && q.val > root.val) {
-    return lowestCommonAncestor(root.right, p, q);
-  // Else if the values are both lower than the current root node, recursively iterate to the left side
-  } else if (p.val < root.val && q.val < root.val) {
-    return lowestCommonAncestor(root.left, p, q);
-  } else { // Else the current root node will be the least common ancestor
-    return root;
+//   // If the values are both greater than the current root node, recursively iterate to the right side
+//   if (p.val > root.val && q.val > root.val) {
+//     return lowestCommonAncestor(root.right, p, q);
+//   // Else if the values are both lower than the current root node, recursively iterate to the left side
+//   } else if (p.val < root.val && q.val < root.val) {
+//     return lowestCommonAncestor(root.left, p, q);
+//   } else { // Else the current root node will be the least common ancestor
+//     return root;
+//   }
+// }
+
+// Iterative approach with O(1) space complexity and O(h) time complexity (h is height of tree);
+
+const lowestCommonAncestor = (root, p, q) => {
+  if (root === null) return null; // Edge case if root is null
+
+  while (root) {
+    if (p.val < root.val && q.val < root.val) { // If both vals are less than, iterate through the left
+      root = root.left;
+    } else if (p.val > root.val && q.val > root.val) { // If both vals are greater than iterate through the right
+      root = root.right;
+    } else {
+      return root; // Else we are currently at its LCA.
+    }
   }
+
 }
+
 
 function TreeNode(val, left, right) {
   this.val = val;
@@ -142,9 +160,6 @@ function TreeNode(val, left, right) {
 // let node2 = new TreeNode(2, node0, node4);
 // let node6 = new TreeNode(6, node2, node8);
 // let testRoot = node6;
-
-// debugger;
-// console.log(root);
 
 // let result = lowestCommonAncestor(testRoot, node2, node8);
 // console.log(result);
