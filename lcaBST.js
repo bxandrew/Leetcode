@@ -55,62 +55,75 @@
 // Time Complexity O(n)
 // Space Complexity O(n)
 
-var lowestCommonAncestor = function(root, p, q) {
-  let pStack = [];
-  let qStack = [];
+// var lowestCommonAncestor = function(root, p, q) {
+//   let pStack = [];
+//   let qStack = [];
 
-  let currNode = root; // Set current node to root
+//   let currNode = root; // Set current node to root
 
-  while (currNode !== p) { // Find the p node first
-    debugger;
-    pStack.push(currNode); // Push parent into our stack
+//   while (currNode !== p) { // Find the p node first
+//     debugger;
+//     pStack.push(currNode); // Push parent into our stack
 
-    if (p.val < currNode.val) { // if p is less than curr node (BST)
-      //iterate down the left side
-      currNode = currNode.left;
-    } else {
-      currNode = currNode.right;
-    }
-  }
-  pStack.push(currNode); // After we have found it, also push itself onto the stack
+//     if (p.val < currNode.val) { // if p is less than curr node (BST)
+//       //iterate down the left side
+//       currNode = currNode.left;
+//     } else {
+//       currNode = currNode.right;
+//     }
+//   }
+//   pStack.push(currNode); // After we have found it, also push itself onto the stack
 
-  // Now find q node
-  currNode = root;
-  while (currNode !== q) {
-    qStack.push(currNode);
-    if (q.val < currNode.val) {
-      currNode = currNode.left;
-    } else {
-      currNode = currNode.right;
-    }
-  }
-  qStack.push(currNode);
+//   // Now find q node
+//   currNode = root;
+//   while (currNode !== q) {
+//     qStack.push(currNode);
+//     if (q.val < currNode.val) {
+//       currNode = currNode.left;
+//     } else {
+//       currNode = currNode.right;
+//     }
+//   }
+//   qStack.push(currNode);
 
-  // Make stack equal size and then iterate backwards and check against each other
-  if (pStack.length > qStack.length) {
-    pStack = pStack.slice(0, qStack.length);
-  } else {
-    qStack = qStack.slice(0, pStack.length);
-  }
+//   // Make stack equal size and then iterate backwards and check against each other
+//   if (pStack.length > qStack.length) {
+//     pStack = pStack.slice(0, qStack.length);
+//   } else {
+//     qStack = qStack.slice(0, pStack.length);
+//   }
 
-  // console.log(pStack);
-  // console.log(qStack);
+//   // console.log(pStack);
+//   // console.log(qStack);
 
-  for (let i = pStack.length - 1; i >= 0; i--) {
-    if (pStack[i] === qStack[i]) {
-      return pStack[i];
-    }
-  }
+//   for (let i = pStack.length - 1; i >= 0; i--) {
+//     if (pStack[i] === qStack[i]) {
+//       return pStack[i];
+//     }
+//   }
 
-  return null;
+//   return null;
 
-};
+// };
 
 
 // Implementing a recursive approach
-// const lowestCommonAncestor = function(root, p, q) {
+// Time complexity is O(log n) because we only have to iterate through half the tree
+// Space complexity is O(log n) bc we are only iterating through one half of the nodes (BST)
 
-// }
+const lowestCommonAncestor = function(root, p, q) {
+  if (root === null) return null; // Basecase if root is null, just return null (no common ancestor)
+
+  // If the values are both greater than the current root node, recursively iterate to the right side
+  if (p.val > root.val && q.val > root.val) {
+    return lowestCommonAncestor(root.right, p, q);
+  // Else if the values are both lower than the current root node, recursively iterate to the left side
+  } else if (p.val < root.val && q.val < root.val) {
+    return lowestCommonAncestor(root.left, p, q);
+  } else { // Else the current root node will be the least common ancestor
+    return root;
+  }
+}
 
 function TreeNode(val, left, right) {
   this.val = val;
@@ -119,19 +132,26 @@ function TreeNode(val, left, right) {
 }
 
 
-let node9 = new TreeNode(9);
-let node7 = new TreeNode(7);
-let node8 = new TreeNode(8, node7, node9);
-let node3 = new TreeNode(3);
-let node5 = new TreeNode(5);
-let node4 = new TreeNode(4, node3, node5);
-let node0 = new TreeNode(0);
-let node2 = new TreeNode(2, node0, node4);
-let node6 = new TreeNode(6, node2, node8);
-let testRoot = node6;
+// let node9 = new TreeNode(9);
+// let node7 = new TreeNode(7);
+// let node8 = new TreeNode(8, node7, node9);
+// let node3 = new TreeNode(3);
+// let node5 = new TreeNode(5);
+// let node4 = new TreeNode(4, node3, node5);
+// let node0 = new TreeNode(0);
+// let node2 = new TreeNode(2, node0, node4);
+// let node6 = new TreeNode(6, node2, node8);
+// let testRoot = node6;
 
 // debugger;
 // console.log(root);
 
-// let result = lowestCommonAncestor(testRoot, node2, node4);
+// let result = lowestCommonAncestor(testRoot, node2, node8);
+// console.log(result);
+
+// let node1 = new TreeNode(1);
+// let node2 = new TreeNode(2, node1);
+
+// console.log(node2);
+// let result = lowestCommonAncestor(node2, node2, node1);
 // console.log(result);
