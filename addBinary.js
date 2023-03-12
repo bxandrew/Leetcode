@@ -22,6 +22,9 @@
 // Use a carry array
 // Use these three to calculate the answer
 
+// Time complexity: O(n)
+// Space complexity: O(n)
+
 var addBinary = function (a, b) {
   const aBit = a.split("").reverse();
   const bBit = b.split("").reverse();
@@ -48,6 +51,7 @@ var addBinary = function (a, b) {
     carry[carry.length] = 1;
   }
 
+  // Because we reversed the arrays originally, reverse back and then join.
   carry.reverse();
   return carry.join("");
 };
