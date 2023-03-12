@@ -40,6 +40,11 @@ var majorityElement = function (nums) {
     if (numsCount[key] > highest) {
       highest = numsCount[key];
       highestElement = key;
+
+      // If the count is greater than half the length of the array, return out early (we have found our majority element)
+      if (numsCount[key] >= nums.length / 2) {
+        return Number(key);
+      }
     }
   }
 
