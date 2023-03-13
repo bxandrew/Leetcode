@@ -34,42 +34,73 @@
 // Time Complexity: O(n^2);
 // Space Complexity: O(n);
 
-var diameterOfBinaryTree = function (root) {
-  let maxDiameter = 0;
+// var diameterOfBinaryTree = function (root) {
+//   let maxDiameter = 0;
 
-  const findDepth = (node, count = 1) => {
-    // If node is invalid return out
-    if (!node) return 0;
+//   const findDepth = (node, count = 1) => {
+//     // If node is invalid return out
+//     if (!node) return 0;
 
-    // Basecase is if the node is a leaf node (no remaining branches)
-    if (!node.left && !node.right) return count;
+//     // Basecase is if the node is a leaf node (no remaining branches)
+//     if (!node.left && !node.right) return count;
 
-    const leftMax = findDepth(node.left, count + 1);
-    const rightMax = findDepth(node.right, count + 1);
+//     const leftMax = findDepth(node.left, count + 1);
+//     const rightMax = findDepth(node.right, count + 1);
 
-    return leftMax > rightMax ? leftMax : rightMax;
+//     return leftMax > rightMax ? leftMax : rightMax;
+//   };
+
+//   // For each node, we have to findDepth for its left and right
+//   const stack = [root];
+//   while (stack.length) {
+//     let currentNode = stack.pop();
+
+//     // Add left and right nodes to stack to check
+//     if (currentNode.left) {
+//       stack.push(currentNode.left);
+//     }
+//     if (currentNode.right) {
+//       stack.push(currentNode.right);
+//     }
+
+//     let diameter = findDepth(currentNode.left) + findDepth(currentNode.right);
+//     if (diameter > maxDiameter) {
+//       maxDiameter = diameter;
+//     }
+//   }
+
+//   return maxDiameter;
+// };
+
+// Aiming for O(n) time complexity:
+
+// Leetcode's algorithm:
+// Initialize our  diameter to keep track of the longest path we find from DFS
+// Implement a recursive functino that takes a node as an input
+//  It will recursively explore the entire tree rooted at the given node.
+// Once finished, it should return the longest path out of its left and right branches
+// If node is null, return 0 because it's not a valid node
+// Recursively explore each of the node's left and right child.
+// Get the longest path of the left and right child
+
+// Return the longer of the two paths left or right and add 1 to the result because of its connection with it's parent node.
+
+const diameterOfBinaryTree = function (root) {
+  let diameter = 0; // Initialize diameter as 0
+  const findDepth = (node) => {
+    if (!node) return 0; // If it is a node that doesnt exist, return out 0
+
+    const left = findDepth(node.left); // Recursively iterate down to the left
+    const right = findDepth(node.right);
+
+    diameter = Math.max(diameter, left + right); // Set the diameter here through evaluation (if left + right is greater, thats the new largest diameter)
+
+    // At the end of our recursive function, add 1 to our path length between itself and its parent
+    return Math.max(left, right) + 1;
   };
 
-  // For each node, we have to findDepth for its left and right
-  const stack = [root];
-  while (stack.length) {
-    let currentNode = stack.pop();
-
-    // Add left and right nodes to stack to check
-    if (currentNode.left) {
-      stack.push(currentNode.left);
-    }
-    if (currentNode.right) {
-      stack.push(currentNode.right);
-    }
-
-    let diameter = findDepth(currentNode.left) + findDepth(currentNode.right);
-    if (diameter > maxDiameter) {
-      maxDiameter = diameter;
-    }
-  }
-
-  return maxDiameter;
+  findDepth(root);
+  return diameter;
 };
 
 function TreeNode(val, left, right) {
