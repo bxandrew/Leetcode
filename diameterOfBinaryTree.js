@@ -90,7 +90,7 @@ const diameterOfBinaryTree = function (root) {
   const findDepth = (node) => {
     if (!node) return 0; // If it is a node that doesnt exist, return out 0
 
-    const left = findDepth(node.left); // Recursively iterate down to the left
+    const left = findDepth(node.left); // Recursively iterate down to the left DFS
     const right = findDepth(node.right);
 
     diameter = Math.max(diameter, left + right); // Set the diameter here through evaluation (if left + right is greater, thats the new largest diameter)
