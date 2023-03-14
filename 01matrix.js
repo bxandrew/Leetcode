@@ -56,8 +56,9 @@ var updateMatrix = function (mat) {
 
   // Helper function to check the tiles
   const check = (mat, row, col) => {
-    if (row < 0 || row >= mat.length || col < 0 || col >= mat[0].length)
+    if (row < 0 || row >= mat.length || col < 0 || col >= mat[0].length) {
       return Infinity;
+    }
 
     return mat[row][col];
   };
