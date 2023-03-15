@@ -37,27 +37,64 @@
 // Time Complexity: O(n)
 // Space Complexity: O(n)
 
-var levelOrder = function (root) {
+// var levelOrder = function (root) {
+//   const result = [];
+
+//   // Recursively traverse, give node, give depth (should have reference to result via closure)
+//   const bfsTraverse = (node, depth) => {
+//     if (!node) return; // If node is null return out
+
+//     // Initialize a new array if we have reached the depth and its not defined
+//     if (result[depth] === undefined) {
+//       result[depth] = [];
+//     }
+
+//     // Push our current node into the depth index of result
+//     result[depth].push(node.val);
+
+//     bfsTraverse(node.left, depth + 1);
+//     bfsTraverse(node.right, depth + 1);
+//   };
+
+//   bfsTraverse(root, 0);
+//   return result;
+// };
+
+// Attemping to do it iteratively
+
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
+const levelOrder = function (root) {
   const result = [];
 
-  // Recursively traverse, give node, give depth (should have reference to result via closure)
-  const bfsTraverse = (node, depth) => {
-    if (!node) return; // If node is null return out
+  const queue = [[root, 0]];
 
-    // Initialize a new array if we have reached the depth and its not defined
-    if (result[depth] === undefined) {
-      result[depth] = [];
+  while (queue.length) {
+    let currElement = queue.shift();
+    let currNode = currElement[0];
+    let currDepth = currElement[1];
+
+    if (!currNode) continue; // Edgecase if the currNode is null, continue to the next element
+
+    // Initialize array if not yet existing
+    if (!result[currDepth]) {
+      result[currDepth] = [];
     }
 
-    // Push our current node into the depth index of result
-    result[depth].push(node);
+    // Push our current value in the the depth position index in our result array
+    result[currDepth].push(currNode.val);
 
-    bfsTraverse(node.left, depth + 1);
-    bfsTraverse(node.right, depth + 1);
-  };
+    // Push the left and right into the queue
+    if (currNode.left) {
+      queue.push([currNode.left, currDepth + 1]);
+    }
+    if (currNode.right) {
+      queue.push([currNode.right, currDepth + 1]);
+    }
+  }
 
-  bfsTraverse(root, 0);
-  console.log(result);
+  return result;
 };
 
 function TreeNode(val, left, right) {
