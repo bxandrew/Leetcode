@@ -12,35 +12,63 @@
 // Time Complexity: O(n)
 // Space Complexity: O(n)
 
+// const largestComponent = (graph) => {
+//   const visited = new Set();
+//   const counts = [];
+
+//   for (let node in graph) {
+//     // Goal is to return how big this node is
+//     counts.push(traverse(graph, node, visited));
+//   }
+
+//   // Edge case is for if the graph itself is empty
+//   if (!counts.length) return 0;
+
+//   return Math.max(...counts);
+// };
+
+// const traverse = (graph, current, visited, count = 0) => {
+//   // If we have already visited the node, return our count (do not increment as this is already visited)
+//   if (visited.has(String(current))) return count;
+
+//   // Add to our visited set and also increment our count of how big the component is
+//   visited.add(String(current));
+//   count += 1;
+
+//   // Do the dfs traversal
+//   for (let neighbor of graph[current]) {
+//     count = traverse(graph, neighbor, visited, count);
+//   }
+
+//   // After finish iterating through the component, return how big it is (represented by count)
+//   return count;
+// };
+
 const largestComponent = (graph) => {
   const visited = new Set();
-  const counts = [];
+  let largest = 0;
 
   for (let node in graph) {
-    // Goal is to return how big this node is
-    counts.push(traverse(graph, node, visited));
+    let size = traverse(graph, node, visited);
+    if (size > largest) {
+      largest = size;
+    }
   }
 
-  // Edge case is for if the graph itself is empty
-  if (!counts.length) return 0;
-
-  return Math.max(...counts);
+  return largest;
 };
 
-const traverse = (graph, current, visited, count = 0) => {
-  // If we have already visited the node, return our count (do not increment as this is already visited)
-  if (visited.has(String(current))) return count;
+const traverse = (graph, current, visited) => {
+  if (visited.has(String(current))) return 0;
+  let count = 0;
 
-  // Add to our visited set and also increment our count of how big the component is
   visited.add(String(current));
   count += 1;
 
-  // Do the dfs traversal
   for (let neighbor of graph[current]) {
-    count = traverse(graph, neighbor, visited, count);
+    count += traverse(graph, neighbor, visited);
   }
 
-  // After finish iterating through the component, return how big it is (represented by count)
   return count;
 };
 
