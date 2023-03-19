@@ -13,32 +13,73 @@
 // Time Complexity: O(r * c) because worse case scenario, we have to traverse every node
 // Space Complexity: O(r * c) because worse case scenario, we have to store every node we visited
 
+// const closestCarrot = (grid, startRow, startCol) => {
+//   const visited = new Set();
+
+//   const queue = [[startRow, startCol, 0]]; // [position, distance]
+//   while (queue.length > 0) {
+//     const [currRow, currCol, distance] = queue.shift();
+
+//     // Check if inbounds
+//     const rowInbounds = currRow >= 0 && currRow < grid.length;
+//     const colInbounds = currCol >= 0 && currCol < grid[0].length;
+//     if (!rowInbounds || !colInbounds) continue;
+
+//     if (grid[currRow][currCol] === "X") continue; // If it is a wall, continue on
+
+//     if (grid[currRow][currCol] === "C") return distance; // We have found our closest carrot
+
+//     // Check if we have visited this position before
+//     const position = currRow + "," + currCol;
+//     if (visited.has(position)) continue;
+//     visited.add(position);
+
+//     // Add our neighbors into the queue
+//     queue.push([currRow, currCol - 1, distance + 1]);
+//     queue.push([currRow, currCol + 1, distance + 1]);
+//     queue.push([currRow - 1, currCol, distance + 1]);
+//     queue.push([currRow + 1, currCol, distance + 1]);
+//   }
+
+//   return -1;
+// };
+
 const closestCarrot = (grid, startRow, startCol) => {
-  const visited = new Set();
+  const visited = new Set([startRow + "," + startCol]);
 
-  const queue = [[startRow, startCol, 0]]; // [position, distance]
+  const queue = [[startRow, startCol, 0]];
   while (queue.length > 0) {
-    const [currRow, currCol, distance] = queue.shift();
+    const [row, col, distance] = queue.shift();
 
-    // Check if inbounds
-    const rowInbounds = currRow >= 0 && currRow < grid.length;
-    const colInbounds = currCol >= 0 && currCol < grid[0].length;
-    if (!rowInbounds || !colInbounds) continue;
+    if (grid[row][col] === "C") return distance;
 
-    if (grid[currRow][currCol] === "X") continue; // If it is a wall, continue on
+    // Using a deltas array strategy
+    const deltas = [
+      [0, -1],
+      [0, 1],
+      [-1, 0],
+      [1, 0],
+    ]; // Representing left, right, top, bottom
+    for (let delta of deltas) {
+      const [rowDelta, colDelta] = delta;
+      const neighborRow = row + rowDelta;
+      const neighborCol = col + colDelta;
+      // Check our bounds
+      const rowInbounds = neighborRow >= 0 && neighborRow < grid.length;
+      const colInbounds = neighborCol >= 0 && neighborCol < grid[0].length;
+      const position = neighborRow + "," + neighborCol;
 
-    if (grid[currRow][currCol] === "C") return distance; // We have found our closest carrot
-
-    // Check if we have visited this position before
-    const position = currRow + "," + currCol;
-    if (visited.has(position)) continue;
-    visited.add(position);
-
-    // Add our neighbors into the queue
-    queue.push([currRow, currCol - 1, distance + 1]);
-    queue.push([currRow, currCol + 1, distance + 1]);
-    queue.push([currRow - 1, currCol, distance + 1]);
-    queue.push([currRow + 1, currCol, distance + 1]);
+      // If next position is inbounds and not a wall ("X") and also not visited
+      if (
+        rowInbounds &&
+        colInbounds &&
+        grid[neighborRow][neighborCol] !== "X" &&
+        !visited.has(position)
+      ) {
+        queue.push([neighborRow, neighborCol, distance + 1]);
+        visited.add(position);
+      }
+    }
   }
 
   return -1;
