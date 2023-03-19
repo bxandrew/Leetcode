@@ -12,31 +12,63 @@
 // Time Complexity: We have to traverse through each node and for each node we have to traverse its neighbors O(n * e) n representing nodes and e edges
 // Space Complexity: O(n) because of recursively iterating through each node
 
+// const longestPath = (graph) => {
+//   let longest = 0;
+
+//   for (let node in graph) {
+//     const result = traverse(graph, node, 0);
+//     if (result > longest) {
+//       longest = result;
+//     }
+//   }
+
+//   return longest;
+// };
+
+// // Returns max distance of current node
+// const traverse = (graph, current, distance) => {
+//   let longest = distance; // Starts at our distance input
+
+//   for (let neighbor of graph[current]) {
+//     const path = traverse(graph, neighbor, distance + 1);
+//     if (path > longest) {
+//       longest = path;
+//     }
+//   }
+
+//   return longest;
+// };
+
+// Using a distance object to both keep track of visited nodes (to prevent duplicate traversals) and to store the max distance for each node
+// Time Complexity: O(e) for edges traveled (we never travel the edge twice because of our distance object)
+// Space Complexity: O(n) because of the distance object storing each node's max distance.
 const longestPath = (graph) => {
-  let longest = 0;
+  const distance = {};
 
   for (let node in graph) {
-    const result = traverse(graph, node, 0);
-    if (result > longest) {
-      longest = result;
+    if (graph[node].length === 0) {
+      distance[node] = 0;
     }
   }
 
-  return longest;
+  for (let node in graph) {
+    traverseDistance(graph, node, distance);
+  }
+
+  return Math.max(...Object.values(distance));
 };
 
-// Returns max distance of current node
-const traverse = (graph, current, distance) => {
-  let longest = distance; // Starts at our distance input
+const traverseDistance = (graph, current, distance) => {
+  if (current in distance) return distance[current];
 
+  let maxLength = 0;
   for (let neighbor of graph[current]) {
-    const path = traverse(graph, neighbor, distance + 1);
-    if (path > longest) {
-      longest = path;
-    }
+    const path = traverseDistance(graph, neighbor, distance);
+    if (path > maxLength) maxLength = path;
   }
 
-  return longest;
+  distance[current] = 1 + maxLength;
+  return distance[current];
 };
 
 // const graph = {
