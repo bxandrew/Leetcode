@@ -41,9 +41,10 @@
 
 const hasCycle = (graph) => {
   const visited = new Set(); // Black
+  const visiting = new Set(); // Grey
 
   for (let node in graph) {
-    const result = traverse(graph, node, new Set(), visited);
+    const result = traverse(graph, node, visiting, visited);
     if (result === true) return true;
   }
 
@@ -62,6 +63,8 @@ const traverse = (graph, node, visiting, visited) => {
     if (result === true) return true;
   }
 
+  // Before adding the node to our visited set, remove it from our visiting set. A node should only appear in one of the sets.
+  visiting.delete(node);
   visited.add(node);
   return false;
   // If we never encounter a cycle in our dfs traversal, mark the node as visited and return out false
