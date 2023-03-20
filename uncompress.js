@@ -18,7 +18,7 @@
 
 const uncompress = (s) => {
   let alphabet = "abcdefghijklmnopqrstuvwxyz";
-  let result = "";
+  let result = [];
 
   let start = 0;
   let end = 0;
@@ -26,13 +26,15 @@ const uncompress = (s) => {
     end += 1;
     if (alphabet.includes(s[end])) {
       let times = Number(s.slice(start, end));
-      result += s[end].repeat(times);
+      for (let i = 0; i < times; i++) {
+        result.push(s[end]);
+      }
       end += 1;
       start = end;
     }
   }
 
-  return result;
+  return result.join("");
 };
 
 console.log(uncompress("2c3a1t")); // -> 'ccaaat'
