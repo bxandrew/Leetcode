@@ -22,32 +22,49 @@ function Node(val) {
 // Time Complexity: O(min(n, m)) Smaller of the two linked lists because we can just concat the rest of the the other lists once we finish iterating through the smaller list
 // Space Complexity: O(1) We dont use any extra space besides the 3 pointers and 1 counter variable in the beginning.
 
+// const zipperLists = (head1, head2) => {
+//   let tail = head1; // Tail keeps track of where our tail is while we merge linked lists
+
+//   let current1 = head1.next;
+//   let current2 = head2;
+//   let count = 0;
+//   while (current1 !== null && current2 !== null) {
+//     if (count % 2 === 0) {
+//       // If even take from list 2 and append onto the tail
+//       tail.next = current2;
+//       tail = tail.next;
+//       current2 = current2.next;
+//       count++;
+//     } else {
+//       tail.next = current1;
+//       tail = tail.next;
+//       current1 = current1.next;
+//       count++;
+//     }
+//   }
+
+//   if (current1 !== null) {
+//     tail.next = current1;
+//   } else if (current2 !== null) {
+//     tail.next = current2;
+//   }
+
+//   return head1;
+// };
+
+// Recursive Solution to zipper
+// Time Complexity: O(n)
+// Space Complexity: O(n)
 const zipperLists = (head1, head2) => {
-  let tail = head1; // Tail keeps track of where our tail is while we merge linked lists
+  if (head1 === null && head2 === null) return null;
+  if (head1 === null) return head2;
+  if (head2 === null) return head1;
 
-  let current1 = head1.next;
-  let current2 = head2;
-  let count = 0;
-  while (current1 !== null && current2 !== null) {
-    if (count % 2 === 0) {
-      // If even take from list 2 and append onto the tail
-      tail.next = current2;
-      tail = tail.next;
-      current2 = current2.next;
-      count++;
-    } else {
-      tail.next = current1;
-      tail = tail.next;
-      current1 = current1.next;
-      count++;
-    }
-  }
+  const next1 = head1.next;
+  const next2 = head2.next;
 
-  if (current1 !== null) {
-    tail.next = current1;
-  } else if (current2 !== null) {
-    tail.next = current2;
-  }
+  head1.next = head2;
+  head2.next = zipperLists(next1, next2);
 
   return head1;
 };
