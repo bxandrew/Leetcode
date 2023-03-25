@@ -38,7 +38,6 @@
 
 // Time Complexity: O(n * m) where n is the rows and m is the cols
 // Space Complexity: O(n * m) We have to store the position of each node we visit
-
 var orangesRotting = function (grid) {
   let orangeCount = 0;
   let longestDistance = 0;
