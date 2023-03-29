@@ -34,29 +34,51 @@
 // Add neighbors onto queue if the amount is >= 0;
 // Use a visited set to cache previous calculated results.
 
-var coinChange = function (coins, amount) {
-  let minCoins = Infinity;
-  const visited = new Set(); // So we don't have to recalculate previous values we have reached (if we have reached it already with a bigger coin)
+// var coinChange = function (coins, amount) {
+//   let minCoins = Infinity;
+//   const visited = new Set(); // So we don't have to recalculate previous values we have reached (if we have reached it already with a bigger coin)
 
-  const queue = [[amount, 0]];
-  while (queue.length > 0) {
-    const [currAmount, count] = queue.shift();
-    if (currAmount === 0 && count < minCoins) minCoins = count;
+//   const queue = [[amount, 0]];
+//   while (queue.length > 0) {
+//     const [currAmount, count] = queue.shift();
+//     if (currAmount === 0 && count < minCoins) minCoins = count;
 
-    for (let coin of coins) {
-      const nextAmount = currAmount - coin;
-      if (nextAmount >= 0 && !visited.has(nextAmount)) {
-        queue.push([nextAmount, count + 1]);
-        visited.add(nextAmount);
-      }
+//     for (let coin of coins) {
+//       const nextAmount = currAmount - coin;
+//       if (nextAmount >= 0 && !visited.has(nextAmount)) {
+//         queue.push([nextAmount, count + 1]);
+//         visited.add(nextAmount);
+//       }
+//     }
+//   }
+
+//   if (minCoins === Infinity) return -1;
+//   return minCoins;
+// };
+
+const coinChange = (coins, amount, memo = {}) => {
+  if (amount in memo) return memo[amount];
+  if (amount === 0) return 0;
+  if (amount < 0) return -1;
+
+  const paths = [];
+  for (let coin of coins) {
+    const path = 1 + coinChange(coins, amount - coin, memo);
+    if (path > 0) {
+      paths.push(path);
     }
   }
 
-  if (minCoins === Infinity) return -1;
-  return minCoins;
+  if (paths.length === 0) {
+    memo[amount] = -1;
+    return memo[amount];
+  }
+
+  memo[amount] = Math.min(...paths);
+  return memo[amount];
 };
 
-console.log(coinChange([1, 2, 5], 100));
+console.log(coinChange([1, 2, 5], 11));
 // Input: coins = [1,2,5], amount = 11
 // Output: 3
 // Explanation: 11 = 5 + 5 + 1
